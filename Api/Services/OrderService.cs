@@ -1,0 +1,27 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Api.Entities;
+using Api.Interfaces;
+using Microsoft.EntityFrameworkCore;
+
+namespace Api.Services
+{
+    public class OrderService : IOrderService
+    {
+        private readonly CustomersDbContext _customersDbContext;
+
+        public OrderService(CustomersDbContext customersDbContext)
+        {
+            _customersDbContext = customersDbContext;
+        }
+
+        public async Task<List<Order>> GetOrdersByCustomerId(int id)
+        {
+            var orders = await _customersDbContext.Orders.Where(order => order.CustomerId == id).ToListAsync();
+
+            return orders;
+        }
+    }
+}
